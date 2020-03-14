@@ -1,55 +1,42 @@
-<!DOCTYPE html>
-
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-<html>   
-    
-    <head>
-        <title>Rango</title>
-    </head>
-    
-    <body>
+{% block title_block%}
+{% endblock %}
 
-        <div>
-            <strong>Most Liked Categories</strong>
-            {% if categories %}
-            <ul>
-            {% for category in categories %}
-            <!-- Following line changed to add an HTML hyperlink -->
+{% block body_block%}
+    <div>
+        <strong>Most Liked Categories</strong>
+        {% if categories %}
+        <ul>
+        {% for category in categories %}
+        <!-- Following line changed to add an HTML hyperlink -->
+        <li>
+        <a href="{% url 'show_category' category.slug%}">{{ category.name }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <strong>Most Viewed Pages</strong>
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
             <li>
-            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+                <a href="{{page.url}}">{{page.title}}</a>
             </li>
             {% endfor %}
-            </ul>
-            {% else %}
-            <strong>There are no categories present.</strong>
-            {% endif %}
-        </div>
+        </ul>
+        {% else %}
+        <strong>There are no pages present.</strong>
+        {% endif %}
+    </div>
 
-        <div>
-            <strong>Most Viewed Pages</strong>
-            {% if pages %}
-            <ul>
-                {% for page in pages %}
-                <li>
-                    <a href="{{page.url}}">{{page.title}}</a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <strong>There are no pages present.</strong>
-            {% endif %}
-        </div>
-
-        <div>
-            <a href="/rango/add_category">Add Category</a>
-        </div>
-
-        <div>
-            <a href="/rango/about/">About</a><br />
-            <img src='{% static "images/test.png" %}' alt="Picture" />
-        </div>
-
-    </body>
-
-</html>
+    <div>
+        <img src='{% static "images/test.png" %}' alt="Picture" />
+    </div>
+{% endblock %}
