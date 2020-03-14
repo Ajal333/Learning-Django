@@ -4,7 +4,8 @@ from rango.models import Category,Page
 
 def index(request) :
     cat_list =  Category.objects.order_by('-likes')[:5]
-    context_dict = {'categories':cat_list}
+    page_list = Page.objects.order_by('-views')[:5]
+    context_dict = {'categories':cat_list,'pages':page_list}
     return render(request, 'rango/index.html', context = context_dict)
 
 def about(request) :

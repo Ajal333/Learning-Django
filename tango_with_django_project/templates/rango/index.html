@@ -11,6 +11,7 @@
     <body>
 
         <div>
+            <strong>Most Liked Categories</strong>
             {% if categories %}
             <ul>
             {% for category in categories %}
@@ -22,6 +23,21 @@
             </ul>
             {% else %}
             <strong>There are no categories present.</strong>
+            {% endif %}
+        </div>
+
+        <div>
+            <strong>Most Viewed Pages</strong>
+            {% if pages %}
+            <ul>
+                {% for page in pages %}
+                <li>
+                    <a href="{{page.url}}">{{page.title}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <strong>There are no pages present.</strong>
             {% endif %}
         </div>
 
