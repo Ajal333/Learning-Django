@@ -2,6 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rango.forms import CategoryForm,PageForm,UserForm,UserProfileForm
 from rango.models import Category,Page
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
 
 def index(request) :
     cat_list =  Category.objects.order_by('-likes')[:5]
@@ -104,4 +107,24 @@ def register(request) :
 
     context_dict = {'user_form' : user_form, 'profile_form':profile_form, 'registered':registered}
     return render(request,'rango/register.html',context_dict)
+
+def user_login(request) :
+    if request.method == 'POST' :
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username,password=password)
+
+        if user :
+            if user.is_active :
+                login(request,user)
+                return HttpResponseRedirect(reverse('index'))
+            else :
+                return HttpResponse('Your account is Disabled')
+        else :
+            print('Invalid login details: {0} , {1}'.format(username,password))
+            return HttpResponse('Invalid Login Details')
+    else :
+        return render(request,'rango/login.html',{})
+
 
