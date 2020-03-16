@@ -168,6 +168,6 @@ def visitor_cookie_handler(request) :
         visits = visits + 1
         request.session['last_visit'] = str(datetime.now())
     else :
-        request.session['last_visist'] = last_visit_cookie
+        request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
