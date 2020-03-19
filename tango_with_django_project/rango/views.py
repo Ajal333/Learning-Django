@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from rango.forms import CategoryForm,PageForm,UserForm,UserProfileForm
-from rango.models import Category,Page
+from rango.models import Category,Page,User,UserProfile
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -37,7 +37,7 @@ def show_category(request,category_name_slug) :
     try :
         category = Category.objects.get(slug=category_name_slug)
 
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
 
         context_dict['pages'] = pages
         context_dict['category'] = category
@@ -171,3 +171,38 @@ def visitor_cookie_handler(request) :
         request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
+
+def track_url(request) :
+    page_id = None
+    url = '/rango/'
+    if request.method == 'GET' :
+        if page_id in request.GET :
+            page_id = request.GET['page_id']
+
+            try :
+                page = Page.objects.get(id= page_id)
+                page.views = page.views + 1
+                page.save()
+                url = page.url
+            except :
+                pass
+    return redirect(url)
+
+@login_required
+def profile(request, username) :
+    try :
+        user = User.objects.get(username = username)
+    except User.DoesNotExist :
+        return redirect('index')
+
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+    form = UserProfileForm(
+        {'website': userprofile.website, 'picture': userprofile.picture})
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('profile', user.username)
+        else:
+            print(form.errors)
+    return render(request, 'rango/new_profile.html',{'userprofile': userprofile, 'selecteduser': user, 'form': form})
