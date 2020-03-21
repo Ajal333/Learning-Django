@@ -11,7 +11,7 @@ $(document).ready(() => {
 
     $("#about-btn").click( function(event) {
         msgstr = $("#msg").html()
-        msgstr = "I was here for an example and why the hell did you click that button instead of admiring me?"
+        msgstr = "This is ridiculous by the way!"
         $("#msg").html(msgstr)
     });
 });
