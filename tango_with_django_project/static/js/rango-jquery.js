@@ -9,9 +9,9 @@ $(document).ready(() => {
         $(this).css('color','blue');
     });
 
-    $("#about-btn").click(event => {
+    $("#about-btn").click( function(event) {
         msgstr = $("#msg").html()
-        msgstr = msgstr + "ooo"
+        msgstr = "I was here for an example and why the hell did you click that button instead of admiring me?"
         $("#msg").html(msgstr)
     });
 });

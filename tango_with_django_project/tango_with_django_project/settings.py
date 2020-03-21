@@ -30,7 +30,7 @@ SECRET_KEY = '=u3a&=to^&x*-@qzv2ww_@26o0b8zn=_^w2b%fjof55kc-_-zf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://ajal.pythonanywhere.com',u'ajal.pythonanywhere.com']
+ALLOWED_HOSTS = ['https://ajal.pythonanywhere.com',u'ajal.pythonanywhere.com',u'localhost']
 
 
 # Application definition
